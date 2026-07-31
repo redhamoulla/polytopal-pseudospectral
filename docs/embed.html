@@ -39,8 +39,8 @@
       position: absolute;
       top: 50%;
       left: 50%;
-      width: min(100vw, 200vh);
-      height: min(100vh, 50vw);
+      width: min(100vw, calc(500vh / 3));
+      height: min(100vh, 60vw);
       border: 0;
       opacity: 0;
       pointer-events: none;
@@ -91,7 +91,7 @@
     .wave-preview__hint {
       position: absolute;
       right: .75rem;
-      bottom: .75rem;
+      top: 3rem;
       padding: .4rem .65rem;
       color: var(--ink);
       background: color-mix(in srgb, var(--surface) 88%, transparent);
@@ -115,7 +115,6 @@
     }
 
     @media (prefers-reduced-motion: reduce) {
-      .wave-preview__frame { opacity: 0 !important; }
       .wave-preview__toggle { display: none; }
       .wave-preview__hint { transition: none; }
     }
@@ -229,7 +228,6 @@
           .pw-controls,
           .pw-pressure-legend,
           .pw-energy,
-          .pw-learning,
           .demo-footer {
             display: none !important;
           }
@@ -240,9 +238,40 @@
             height: 100% !important;
             margin: 0 !important;
           }
+          #passive-wave-demo-2026 {
+            display: grid !important;
+            grid-template-rows: minmax(0, 1fr) auto !important;
+          }
+          #passive-wave-demo-2026 .pw-figure {
+            min-height: 0 !important;
+          }
           #passive-wave-demo-2026 .pw-field {
             aspect-ratio: auto !important;
             border: 0 !important;
+          }
+          #passive-wave-demo-2026 .pw-learning {
+            margin: 0 !important;
+            padding: .6rem .8rem .65rem 3.75rem !important;
+            border-top: 1px solid var(--border) !important;
+            background: var(--background) !important;
+          }
+          #passive-wave-demo-2026 .pw-learning .pw-section-head {
+            margin-bottom: .25rem !important;
+            font-size: .76rem !important;
+          }
+          #passive-wave-demo-2026 .pw-learning .pw-section-head > :last-child,
+          #passive-wave-demo-2026 .pw-model-row > .text-small {
+            display: none !important;
+          }
+          #passive-wave-demo-2026 .pw-model-row {
+            grid-template-columns: minmax(6.5rem, .55fr) minmax(8rem, 2fr) 3.5rem !important;
+            gap: .55rem !important;
+            margin-top: .32rem !important;
+            font-size: .74rem !important;
+          }
+          #passive-wave-demo-2026 .pw-error-track {
+            grid-column: auto !important;
+            grid-row: auto !important;
           }
         `;
         frameDocument.head.appendChild(compactStyle);
