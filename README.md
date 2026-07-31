@@ -13,6 +13,11 @@ acoustics.
 
 **[Open the interactive wave and energy demonstration](https://redhamoulla.github.io/polytopal-pseudospectral/)**
 
+For compact website cards, use the
+**[animation-only click-through preview](https://redhamoulla.github.io/polytopal-pseudospectral/embed.html)**.
+It loops the computed pressure field and opens the complete demonstration in a
+new tab when selected.
+
 ## What is validated
 
 This release deliberately separates two complementary experiments.
