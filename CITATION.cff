@@ -1,0 +1,35 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it and the 2012 JCP paper listed in the references."
+title: "Polytopal Pseudospectral Port-Hamiltonian Methods in 2D"
+type: software
+authors:
+  - family-names: Moulla
+    given-names: Redha
+version: 0.1.0
+date-released: 2026-07-31
+license: BSD-3-Clause
+repository-code: "https://github.com/redhamoulla/polytopal-pseudospectral"
+url: "https://redhamoulla.github.io/polytopal-pseudospectral/"
+keywords:
+  - pseudospectral methods
+  - port-Hamiltonian systems
+  - polygonal meshes
+  - scientific machine learning
+  - porous acoustics
+references:
+  - type: article
+    authors:
+      - family-names: Moulla
+        given-names: Redha
+      - family-names: Lefèvre
+        given-names: Laurent
+      - family-names: Maschke
+        given-names: Bernhard
+    title: "Pseudo-spectral methods for the spatial symplectic reduction of open systems of conservation laws"
+    journal: "Journal of Computational Physics"
+    volume: 231
+    issue: 4
+    start: 1272
+    end: 1292
+    year: 2012
+    doi: "10.1016/j.jcp.2011.10.008"

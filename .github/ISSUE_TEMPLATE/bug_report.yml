@@ -1,0 +1,35 @@
+name: Numerical or software bug
+description: Report a reproducible defect in the released implementation.
+title: "[Bug]: "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: Please report invariants and numerical context, not only a screenshot.
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened?
+      description: Describe the observed and expected behaviour.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Minimal reproduction
+      description: Include the command, geometry, polynomial degree and seed.
+      render: shell
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      description: Python, NumPy, SciPy, operating system and BLAS implementation.
+    validations:
+      required: true
+  - type: textarea
+    id: diagnostics
+    attributes:
+      label: Numerical diagnostics
+      description: Rank tolerance, condition number, skew defect or energy-balance defect when relevant.

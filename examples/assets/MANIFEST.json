@@ -1,0 +1,22 @@
+{
+  "release": "0.1.0",
+  "created": "2026-07-31",
+  "reference_environment": {
+    "python": "3.12.13",
+    "numpy": "2.3.5",
+    "scipy": "1.17.0",
+    "matplotlib": "3.10.8"
+  },
+  "sha256": {
+    "direct_mlp.npz": "e87e6c7a6bf35a02082d861994bd2b8075fadcc233b87033979c46d5cbe0655c",
+    "structured_spd.npz": "a709338d3696b9e03330e1f84888cac13b5a9e031ed363cf5758d251e27fe204",
+    "h48p5_observables.npz": "552ce61093fef7746da39f5af24c284b04184db746a3276c7cee42530a40200b",
+    "reference_metrics.json": "56fd4a0d3974acf5e4a3e64fe65243b8205575203b877261d4f78065017562b4",
+    "../../docs/index.html": "15b68be38adc528dc37ad902e8e56e035435dd2f8356b9dfcd8f9f7119d0eb06",
+    "../../docs/preview.svg": "1c40cb5a0ee3d1b6bf0de8c391562baf06c64ec83e7023702f08fde8326e57c9"
+  },
+  "notes": {
+    "h48p5_observables": "Post-confirmatory H48P5 diagnostic after unit-row-norm equilibration of wall constraints.",
+    "demo": "The field is the corrected analytic-closure H48P5 rollout; the neural comparison is the separate independent FV80x40 evaluation."
+  }
+}

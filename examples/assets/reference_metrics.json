@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "fv80x40": {
+    "description": "Independent staggered finite-volume evaluation of the released seed-20260730 checkpoints.",
+    "models": {
+      "structured-spd": {
+        "upstream_pressure_nrmse": 0.005506791706181865,
+        "downstream_pressure_nrmse": 0.022507558300817018,
+        "energy_nrmse": 0.020269280579090932,
+        "minimum_power_density": 0.0,
+        "maximum_power_identity_defect": 2.220446049250313e-16
+      },
+      "direct-mlp": {
+        "upstream_pressure_nrmse": 0.020097847289109617,
+        "downstream_pressure_nrmse": 0.09772445475203767,
+        "energy_nrmse": 0.08564372549699718,
+        "minimum_power_density": -0.00046753644306830563,
+        "maximum_power_identity_defect": 3.3306690738754696e-16
+      }
+    }
+  },
+  "controlled_campaign": {
+    "direct_mlp_negative_power_configurations": 44,
+    "evaluated_configurations": 55,
+    "interpretation": "The direct model produced at least one negative instantaneous dissipation value in 44 of 55 fixed model-case evaluations. This is not a count of divergent rollouts."
+  },
+  "h48p5_wall_equilibrated": {
+    "classification": "post-confirmatory diagnostic",
+    "cells": 48,
+    "degree": 5,
+    "raw_wall_rank": 68,
+    "raw_wall_rows": 70,
+    "raw_condition_2": 814648963049062.5,
+    "equilibrated_wall_rank": 70,
+    "equilibrated_wall_rows": 70,
+    "equilibrated_condition_2": 37.07813455582509,
+    "wall_constraint_defect_relative": 1.1553460181056759e-14,
+    "terminal_energy_ledger_percent": 99.99921,
+    "maximum_balance_defect_over_peak_energy": 3.1610648448330754e-13
+  }
+}

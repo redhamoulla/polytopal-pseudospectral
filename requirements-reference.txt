@@ -1,0 +1,6 @@
+# Reference environment used for the v0.1.0 numerical release.
+# Python 3.12.13
+numpy==2.3.5
+scipy==1.17.0
+matplotlib==3.10.8
+pytest==9.1.1
