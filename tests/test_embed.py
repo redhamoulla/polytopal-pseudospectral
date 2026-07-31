@@ -60,5 +60,7 @@ def test_embed_autoplays_safely_and_honours_reduced_motion() -> None:
     assert "pointer-events: none" in source
     assert "width: min(100vw, 200vh)" in source
     assert "height: min(100vh, 50vw)" in source
+    assert ".page-shell" in source
+    assert "height: 100% !important" in source
     assert ".pw-energy" in source
     assert ".pw-learning" in source
