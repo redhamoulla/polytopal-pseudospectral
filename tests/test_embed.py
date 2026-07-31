@@ -58,8 +58,8 @@ def test_embed_autoplays_safely_and_honours_reduced_motion() -> None:
     assert 'animationToggle.addEventListener("click"' in source
     assert '"IntersectionObserver" in window' in source
     assert "pointer-events: none" in source
-    assert "width: min(100vw, calc(500vh / 3))" in source
-    assert "height: min(100vh, 60vw)" in source
+    assert "width: min(100vw, calc(200vh - 10.6rem))" in source
+    assert "height: min(100vh, calc(50vw + 5.3rem))" in source
     assert ".page-shell" in source
     assert "height: 100% !important" in source
     assert ".pw-energy" in source
