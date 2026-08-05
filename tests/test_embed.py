@@ -23,7 +23,7 @@ class _EmbedParser(HTMLParser):
             self.buttons.append(values)
 
 
-def test_embed_has_single_same_origin_frame_and_click_through_link() -> None:
+def test_embed_has_single_same_origin_frame_link_and_launch_control() -> None:
     source = EMBED.read_text(encoding="utf-8")
     parser = _EmbedParser()
     parser.feed(source)
@@ -37,29 +37,30 @@ def test_embed_has_single_same_origin_frame_and_click_through_link() -> None:
     assert parser.links[0]["href"] == "./"
     assert parser.links[0]["target"] == "_blank"
     assert set(parser.links[0]["rel"].split()) == {"noopener", "noreferrer"}
-    assert "new tab" in parser.links[0]["aria-label"].lower()
+    assert "nouvel onglet" in parser.links[0]["aria-label"].lower()
 
     assert len(parser.buttons) == 1
     assert parser.buttons[0]["type"] == "button"
-    assert parser.buttons[0]["aria-label"] == "Pause animation"
-    assert "hidden" in parser.buttons[0]
+    assert parser.buttons[0]["aria-label"] == "Lancer la simulation"
+    assert "disabled" in parser.buttons[0]
 
 
-def test_embed_autoplays_safely_and_honours_reduced_motion() -> None:
+def test_embed_launches_on_demand_safely_and_honours_reduced_motion() -> None:
     source = EMBED.read_text(encoding="utf-8")
 
     assert 'window.matchMedia("(prefers-reduced-motion: reduce)")' in source
     assert "document.hidden" in source
     assert "playButton.disabled = false" in source
     assert "playButton.click()" in source
-    assert "window.setTimeout(runWave, 8600)" in source
+    assert "window.setTimeout(runWave, 8600)" not in source
     assert 'frame.addEventListener("load", prepareFrame, { once: true })' in source
     assert "cancelActiveFrames()" in source
-    assert 'animationToggle.addEventListener("click"' in source
+    assert 'launchButton.addEventListener("click", runWave)' in source
     assert '"IntersectionObserver" in window' in source
     assert "pointer-events: none" in source
-    assert "width: min(100vw, calc(200vh - 10.6rem))" in source
-    assert "height: min(100vh, calc(50vw + 5.3rem))" in source
+    assert "grid-template-rows: 4rem minmax(0, 1fr)" in source
+    assert "height: min(100%, calc(50vw + 5.3rem))" in source
+    assert "Onde acoustique sur maillage polygonal" in source
     assert ".page-shell" in source
     assert "height: 100% !important" in source
     assert ".pw-energy" in source

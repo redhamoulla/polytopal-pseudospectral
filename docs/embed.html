@@ -1,12 +1,12 @@
 <!doctype html>
-<html lang="en">
+<html lang="fr">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex">
-  <meta name="description" content="Animated preview of a computed wave crossing a porous insert on a 48-cell polygonal mesh.">
+  <meta name="description" content="Aperçu animé d’une onde calculée traversant un insert poreux sur un maillage polygonal de 48 cellules.">
   <meta name="theme-color" content="#fbfaf6">
-  <title>Polytopal wave animation</title>
+  <title>Onde acoustique sur maillage polygonal</title>
   <style>
     :root {
       color-scheme: light;
@@ -24,27 +24,92 @@
       margin: 0;
       overflow: hidden;
       background: var(--surface);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
 
     .wave-preview {
-      position: relative;
+      display: grid;
+      grid-template-rows: 4rem minmax(0, 1fr);
       width: 100%;
       height: 100%;
       min-height: 1px;
       overflow: hidden;
+      color: var(--ink);
+      background: var(--surface);
+    }
+
+    .wave-preview__header {
+      z-index: 4;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      min-width: 0;
+      padding: .55rem .85rem .5rem;
+      border-bottom: 1px solid color-mix(in srgb, var(--ink) 10%, transparent);
+      background: var(--surface);
+    }
+
+    .wave-preview__title {
+      min-width: 0;
+      margin: 0;
+      overflow: hidden;
+      font-size: clamp(.92rem, 2.1vw, 1.12rem);
+      font-weight: 650;
+      letter-spacing: -.015em;
+      line-height: 1.15;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .wave-preview__launch {
+      flex: 0 0 auto;
+      min-height: 2.35rem;
+      padding: .52rem .85rem;
+      border: 1px solid var(--ink);
+      border-radius: 999px;
+      color: var(--surface);
+      background: var(--ink);
+      cursor: pointer;
+      font: 700 .78rem/1 ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    .wave-preview__launch:hover:not(:disabled) {
+      color: var(--ink);
+      background: var(--surface);
+    }
+
+    .wave-preview__launch:focus-visible {
+      outline: 3px solid var(--focus);
+      outline-offset: 2px;
+    }
+
+    .wave-preview__launch:disabled {
+      cursor: wait;
+      opacity: .58;
+    }
+
+    .wave-preview__stage {
+      position: relative;
+      min-height: 0;
+      overflow: hidden;
       background: var(--surface) url("./preview.svg") center / contain no-repeat;
+    }
+
+    .wave-preview__stage.is-ready {
+      background-image: none;
     }
 
     .wave-preview__frame {
       position: absolute;
-      top: 50%;
+      top: 0;
       left: 50%;
-      width: min(100vw, calc(200vh - 10.6rem));
-      height: min(100vh, calc(50vw + 5.3rem));
+      width: 100%;
+      height: min(100%, calc(50vw + 5.3rem));
       border: 0;
       opacity: 0;
       pointer-events: none;
-      transform: translate(-50%, -50%);
+      transform: translateX(-50%);
     }
 
     .wave-preview__frame.is-ready { opacity: 1; }
@@ -61,32 +126,6 @@
       outline: 4px solid var(--focus);
       outline-offset: -4px;
     }
-
-    .wave-preview__toggle {
-      position: absolute;
-      left: .75rem;
-      bottom: .75rem;
-      z-index: 3;
-      min-width: 2.25rem;
-      min-height: 2.25rem;
-      padding: .4rem .65rem;
-      border: 1px solid color-mix(in srgb, var(--ink) 18%, transparent);
-      border-radius: 999px;
-      color: var(--ink);
-      background: color-mix(in srgb, var(--surface) 90%, transparent);
-      box-shadow: 0 2px 12px color-mix(in srgb, var(--ink) 12%, transparent);
-      cursor: pointer;
-      font: 700 .78rem/1 ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    }
-
-    .wave-preview__toggle:hover { background: var(--surface); }
-
-    .wave-preview__toggle:focus-visible {
-      outline: 3px solid var(--focus);
-      outline-offset: 2px;
-    }
-
-    .wave-preview__toggle[hidden] { display: none; }
 
     .wave-preview__hint {
       position: absolute;
@@ -115,59 +154,81 @@
     }
 
     @media (prefers-reduced-motion: reduce) {
-      .wave-preview__toggle { display: none; }
       .wave-preview__hint { transition: none; }
+    }
+
+    @media (max-width: 520px) {
+      .wave-preview {
+        grid-template-rows: 3.75rem minmax(0, 1fr);
+      }
+
+      .wave-preview__header {
+        padding-inline: .65rem;
+      }
+
+      .wave-preview__launch {
+        min-height: 2.15rem;
+        padding-inline: .7rem;
+      }
     }
   </style>
 </head>
 <body>
   <div class="wave-preview">
-    <iframe
-      class="wave-preview__frame"
-      src="./index.html"
-      title="Computed pressure field on a polygonal mesh"
-      scrolling="no"
-      tabindex="-1"
-      aria-hidden="true">
-    </iframe>
-    <a
-      class="wave-preview__link"
-      href="./"
-      target="_blank"
-      rel="noopener noreferrer"
-      aria-label="Open the full interactive polytopal wave demonstration in a new tab">
-      <span class="wave-preview__hint" aria-hidden="true">Explore the demonstration&nbsp;↗</span>
-    </a>
-    <button
-      class="wave-preview__toggle"
-      type="button"
-      aria-label="Pause animation"
-      title="Pause animation"
-      hidden>
-      <span aria-hidden="true" data-pause-icon>Ⅱ</span>
-    </button>
+    <header class="wave-preview__header">
+      <h1 class="wave-preview__title">Onde acoustique sur maillage polygonal</h1>
+      <button
+        class="wave-preview__launch"
+        type="button"
+        aria-label="Lancer la simulation"
+        disabled>
+        <span aria-hidden="true" data-launch-icon>▶</span>
+        <span data-launch-label>Chargement…</span>
+      </button>
+    </header>
+
+    <div class="wave-preview__stage">
+      <iframe
+        class="wave-preview__frame"
+        src="./index.html"
+        title="Champ de pression calculé sur un maillage polygonal"
+        scrolling="no"
+        tabindex="-1"
+        aria-hidden="true">
+      </iframe>
+      <a
+        class="wave-preview__link"
+        href="./"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Ouvrir la démonstration polygonale interactive complète dans un nouvel onglet">
+        <span class="wave-preview__hint" aria-hidden="true">Ouvrir la démonstration complète&nbsp;↗</span>
+      </a>
+    </div>
   </div>
 
   <script>
     (() => {
       "use strict";
 
+      const stage = document.querySelector(".wave-preview__stage");
       const frame = document.querySelector(".wave-preview__frame");
-      const animationToggle = document.querySelector(".wave-preview__toggle");
-      const pauseIcon = animationToggle.querySelector("[data-pause-icon]");
+      const launchButton = document.querySelector(".wave-preview__launch");
+      const launchIcon = launchButton.querySelector("[data-launch-icon]");
+      const launchLabel = launchButton.querySelector("[data-launch-label]");
       const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-      let replayTimer = 0;
+      let finishTimer = 0;
       let playButton = null;
       let frameWindow = null;
       let nativeRequestAnimationFrame = null;
       let nativeCancelAnimationFrame = null;
       let activeAnimationFrames = new Set();
-      let userPaused = false;
       let previewVisible = true;
+      let running = false;
 
-      function stopReplay() {
-        window.clearTimeout(replayTimer);
-        replayTimer = 0;
+      function clearFinishTimer() {
+        window.clearTimeout(finishTimer);
+        finishTimer = 0;
       }
 
       function cancelActiveFrames() {
@@ -177,26 +238,62 @@
         activeAnimationFrames.clear();
       }
 
-      function shouldAnimate() {
-        return !userPaused && !reducedMotion.matches && !document.hidden && previewVisible;
+      function canLaunch() {
+        return Boolean(playButton) && !document.hidden && previewVisible;
       }
 
-      function updateToggle() {
-        const paused = !shouldAnimate();
-        animationToggle.hidden = reducedMotion.matches || !playButton;
-        animationToggle.setAttribute("aria-label", paused ? "Resume animation" : "Pause animation");
-        animationToggle.title = paused ? "Resume animation" : "Pause animation";
-        pauseIcon.textContent = paused ? "▶" : "Ⅱ";
+      function updateLaunchButton() {
+        launchButton.disabled = !canLaunch();
+
+        if (!playButton) {
+          launchIcon.textContent = "▶";
+          launchLabel.textContent = "Chargement…";
+          launchButton.setAttribute("aria-label", "Chargement de la simulation");
+          return;
+        }
+
+        if (reducedMotion.matches) {
+          launchIcon.textContent = "■";
+          launchLabel.textContent = "Afficher le résultat";
+          launchButton.setAttribute("aria-label", "Afficher le résultat final de la simulation");
+          return;
+        }
+
+        launchIcon.textContent = running ? "↻" : "▶";
+        launchLabel.textContent = running ? "Relancer" : "Lancer la simulation";
+        launchButton.setAttribute(
+          "aria-label",
+          running ? "Relancer la simulation" : "Lancer la simulation"
+        );
       }
 
       function runWave() {
-        stopReplay();
+        clearFinishTimer();
         cancelActiveFrames();
-        updateToggle();
-        if (!playButton || !shouldAnimate()) return;
+        if (!canLaunch()) {
+          running = false;
+          updateLaunchButton();
+          return;
+        }
+
         playButton.disabled = false;
         playButton.click();
-        replayTimer = window.setTimeout(runWave, 8600);
+        running = !reducedMotion.matches;
+        updateLaunchButton();
+
+        if (running) {
+          finishTimer = window.setTimeout(() => {
+            running = false;
+            updateLaunchButton();
+          }, 8300);
+        }
+      }
+
+      function stopWave() {
+        clearFinishTimer();
+        cancelActiveFrames();
+        running = false;
+        updateLaunchButton();
       }
 
       function prepareFrame() {
@@ -293,41 +390,30 @@
         };
 
         playButton = frameDocument.querySelector("[data-pw-play]");
+        stage.classList.add("is-ready");
         frame.classList.add("is-ready");
-        updateToggle();
-        runWave();
+        updateLaunchButton();
       }
 
       frame.addEventListener("load", prepareFrame, { once: true });
 
       document.addEventListener("visibilitychange", () => {
-        if (document.hidden) {
-          stopReplay();
-          cancelActiveFrames();
-          updateToggle();
-        }
-        else runWave();
+        if (document.hidden) stopWave();
+        else updateLaunchButton();
       });
 
       reducedMotion.addEventListener("change", () => {
-        if (reducedMotion.matches) {
-          stopReplay();
-          cancelActiveFrames();
-          updateToggle();
-        }
-        else runWave();
+        stopWave();
       });
 
-      animationToggle.addEventListener("click", () => {
-        userPaused = !userPaused;
-        runWave();
-      });
+      launchButton.addEventListener("click", runWave);
 
       if ("IntersectionObserver" in window) {
         const observer = new IntersectionObserver((entries) => {
           const wasVisible = previewVisible;
           previewVisible = entries[0]?.isIntersecting ?? true;
-          if (previewVisible !== wasVisible) runWave();
+          if (!previewVisible && wasVisible) stopWave();
+          else if (previewVisible !== wasVisible) updateLaunchButton();
         });
         observer.observe(document.body);
       }
